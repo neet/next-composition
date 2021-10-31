@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --immutable-cache
+        run: yarn install --immutable
 
       - name: Build TypeScript
         run: yarn run build
