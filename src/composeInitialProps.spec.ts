@@ -6,7 +6,7 @@ describe('composeInitialProps', () => {
     const getInitialProps = composeInitialProps(
       async () => ({ title: 'Silent Spring' }),
       async () => ({ author: 'Rachel Carson' }),
-      (context, { title }, { author }) => ({
+      (_context, { title }, { author }) => ({
         title,
         author,
       }),
