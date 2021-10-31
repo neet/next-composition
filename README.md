@@ -82,12 +82,12 @@ import { composeStaticProps } from 'next-composition';
 
 const withAccount: GetStaticProps = async (ctx) => {
   const data = await fetch('/account');
-  return { props: { account: data } };
+  return { props: { account: data }, revalidate: 60 };
 };
 
 const withPosts: GetStaticProps = async (ctx) => {
   const data = await fetch('/posts');
-  return { props: { posts: data } };
+  return { props: { posts: data }, revalidate: 30 };
 };
 
 export const getStaticProps = composeStaticProps({
@@ -96,7 +96,7 @@ export const getStaticProps = composeStaticProps({
     ...props,
     title: `${props.posts.length} posts - My blog`,
   }),
-  revalidate: 'min',
+  revalidate: 'min', // `30` will be used in this case
 });
 
 export default function Page(props) {
@@ -116,12 +116,12 @@ _composeInitialProps_ takes multiple _getInitialProps_ functions and composes th
 ```ts
 import { composeInitialProps } from 'next-composition';
 
-const withAccount: GetStaticProps = async (ctx) => {
+const withAccount = async (ctx) => {
   const data = await fetch('/account');
   return { account: data };
 };
 
-const withPosts: GetStaticProps = async (ctx) => {
+const withPosts = async (ctx) => {
   const data = await fetch('/posts');
   return { posts: data };
 };
