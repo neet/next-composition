@@ -8,14 +8,6 @@ Next.js utility for reusing _getServerSideProps_, _getStaticProps_ and _getIniti
 
 - [Examples](https://github.com/neet/next-composition/tree/main/examples)
 
-## Install
-
-You can install it via npm
-
-```
-npm install --save next-composition
-```
-
 ### How does it different from `_middleware.js`?
 
 Next.js introduces a feature called _middleware_ since v12.x which allows you to handle shared server side logic in a single module.
@@ -23,6 +15,14 @@ Next.js introduces a feature called _middleware_ since v12.x which allows you to
 It's goal is kind of similar to `next-composition`: sharing common logic among multiple pages. However, since `_middleware` designed to be executed as _edge function_, it has some limitations such as it does not allow you to pass props to page components.
 
 `next-composition` is just a utility and it's entity is just a _getServerSideProps_ and _getStaticProps_ so you can use it just like other APIs.
+
+## Install
+
+You can install it via npm
+
+```
+npm install --save next-composition
+```
 
 ## APIs
 
