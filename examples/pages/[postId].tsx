@@ -3,17 +3,13 @@ import { composeServerSideProps } from '../../src';
 import { withAccount, WithAccountProps } from '../utils/withAccount';
 import { withPost, WithPostProps } from '../utils/withPost';
 
-export const getServerSideProps = composeServerSideProps(
-  withAccount,
-  withPost,
-  (_, { account }, { post }) => ({
-    props: {
-      title: `${post.title} - My Blog`,
-      account,
-      post,
-    },
+export const getServerSideProps = composeServerSideProps({
+  use: [withAccount, withPost],
+  resolver: (props) => ({
+    ...props,
+    title: `${props.post.title} - My Blog`,
   }),
-);
+});
 
 const PostPage = (props: WithAccountProps & WithPostProps): JSX.Element => {
   const { account, post } = props;

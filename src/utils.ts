@@ -21,3 +21,5 @@ export const isProps = <T>(
 ): result is PropsResult<T> => {
   return 'props' in result;
 };
+
+export const id = <T>(x: T): T => x;

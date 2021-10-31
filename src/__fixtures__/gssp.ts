@@ -1,19 +1,28 @@
 import { GetServerSideProps } from 'next';
 
-export const withApple: GetServerSideProps<{ name: string }> = async () => {
-  return {
-    props: {
-      name: 'Apple',
-      fonder: 'Steve Jobs',
-    },
-  };
-};
+type Company = { name: string; founder: string };
 
-export const withFacebook: GetServerSideProps<{ name: string }> = async () => {
+export const withCompany: GetServerSideProps<{ company: Company }> =
+  async () => {
+    return {
+      props: {
+        company: {
+          name: 'Apple',
+          founder: 'Steve Jobs',
+        },
+      },
+    };
+  };
+
+type Book = { title: string; author: string };
+
+export const withBook: GetServerSideProps<{ book: Book }> = async () => {
   return {
     props: {
-      name: 'Facebook',
-      fonder: 'Mark Zuckerberg',
+      book: {
+        title: 'Silent Spring',
+        author: 'Rachel Carson',
+      },
     },
   };
 };

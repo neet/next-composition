@@ -1,29 +1,36 @@
 import { GetStaticProps } from 'next';
 
-export const withApple: GetStaticProps<{ name: string }> = async () => {
+type Company = { name: string; founder: string };
+
+export const withCompany: GetStaticProps<{ company: Company }> = async () => {
   return {
     props: {
-      name: 'Apple',
-      fonder: 'Steve Jobs',
+      company: {
+        name: 'Apple',
+        founder: 'Steve Jobs',
+      },
     },
-    revalidate: 1000,
+    revalidate: 30,
   };
 };
 
-export const withFacebook: GetStaticProps<{ name: string }> = async () => {
+type Book = { title: string; author: string };
+
+export const withBook: GetStaticProps<{ book: Book }> = async () => {
   return {
     props: {
-      name: 'Facebook',
-      fonder: 'Mark Zuckerberg',
+      book: {
+        title: 'Silent Spring',
+        author: 'Rachel Carson',
+      },
     },
-    revalidate: 1000,
+    revalidate: 60,
   };
 };
 
 export const withNotFound: GetStaticProps<never> = async () => {
   return {
     notFound: true,
-    revalidate: 1000,
   };
 };
 
@@ -33,7 +40,7 @@ export const withRedirectToApple: GetStaticProps<never> = async () => {
       statusCode: 302,
       destination: 'https://apple.com',
     },
-    revalidate: 1000,
+    revalidate: 60,
   };
 };
 
@@ -43,6 +50,6 @@ export const withRedirectToFacebook: GetStaticProps<never> = async () => {
       statusCode: 302,
       destination: 'https://facebook.com',
     },
-    revalidate: 1000,
+    revalidate: 60,
   };
 };
