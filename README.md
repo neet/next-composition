@@ -95,7 +95,7 @@ export default function Page(props) {
 }
 ```
 
-### `composeInitialProps` (for Next.js < 9.x or _app.js)
+### `composeInitialProps` (for Next.js < 9.x)
 
 *composeInitialProps* takes multiple *getInitialProps* functions and single function that combines the results into one object.
 
