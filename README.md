@@ -16,9 +16,9 @@ npm install --save next-composition
 
 ## APIs
 
-- [composeServerSideProps](/#composeServerSideProps)
-- [composeStaticProps](/#composeStaticProps)
-- [composeInitialProps](/#composeInitialProps)
+- [composeServerSideProps](#composeServerSideProps)
+- [composeStaticProps](#composeStaticProps)
+- [composeInitialProps](#composeInitialProps)
 
 ### `composeServerSideProps`
 
