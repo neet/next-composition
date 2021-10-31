@@ -8,6 +8,7 @@ export const getServerSideProps = composeServerSideProps(
   withPost,
   (_, { account }, { post }) => ({
     props: {
+      title: `${post.title} - My Blog`,
       account,
       post,
     },
