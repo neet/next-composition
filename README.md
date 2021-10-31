@@ -1,14 +1,24 @@
 # next-composition
 
+[![npm](https://img.shields.io/npm/v/next-composition.svg)](https://www.npmjs.com/package/next-composition)
+[![CI](https://github.com/neet/next-composition/actions/workflows/ci.yml/badge.svg)](https://github.com/neet/next-composition/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/neet/next-composition/branch/main/graph/badge.svg?token=CZEL31RG9D)](https://codecov.io/gh/neet/next-composition)
+
 Next.js utility for reusing *getServerSideProps*, *getStaticProps* and *getInitialProps* logics.
 
 ## Install
+
+You can install it via npm
 
 ```
 npm install --save next-composition
 ```
 
 ## APIs
+
+- [composeServerSideProps](/#composeServerSideProps)
+- [composeStaticProps](/#composeStaticProps)
+- [composeInitialProps](/#composeInitialProps)
 
 ### `composeServerSideProps`
 
