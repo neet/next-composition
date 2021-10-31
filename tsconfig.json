@@ -4,6 +4,7 @@
     "module": "es6",
     "outDir": "./dist",
     "baseUrl": "./",
+    "jsx": "preserve",
     "lib": ["es2019", "dom", "esnext.asynciterable"],
     "declaration": false,
     "esModuleInterop": true,

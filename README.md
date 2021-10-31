@@ -6,6 +6,8 @@
 
 Next.js utility for reusing *getServerSideProps*, *getStaticProps* and *getInitialProps* logics.
 
+- [Examples](https://github.com/neet/next-composition/tree/main/examples)
+
 ## Install
 
 You can install it via npm
