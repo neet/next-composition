@@ -8,14 +8,6 @@ Next.js utility for reusing _getServerSideProps_, _getStaticProps_ and _getIniti
 
 - [Examples](https://github.com/neet/next-composition/tree/main/examples)
 
-### How is it different from `_middleware.js`?
-
-Next.js introduces a feature called _middleware_ since v12.x which allows you to handle shared server side logic in a single module.
-
-It's goal is kind of similar to `next-composition`: sharing common logic among multiple pages. However, since `_middleware` designed to be executed as _edge function_, it has some limitations such as it does not allow you to pass props to page components.
-
-`next-composition` is just a utility and it's entity is just a _getServerSideProps_ and _getStaticProps_ so you can use it just like other APIs.
-
 ## Install
 
 You can install it via npm
@@ -34,9 +26,9 @@ npm install --save next-composition
 
 _composeServerSideProps_ takes multiple _getServerSideProps_ and composes them into a single function.
 
-- `params.use` - Array of _getServerSideProps_ to compose. Object returned from them will be shallow merged and returned from it.
+- `params.use` - Array of _getServerSideProps_ to compose. Object returned from them will be shallowly merged and passed to the page.
 
-- `params.resolver` (optional, default: `x => x`) - A callback function that takes composite props and returns interpolated props.
+- `params.resolver` (optional, default: `x => x`) - A callback function for interpolating the props before it's passed to the page.
 
 ```ts
 import { composeServerSideProps } from 'next-composition';
@@ -53,10 +45,6 @@ const withPosts: GetServerSideProps = async (ctx) => {
 
 export const getServerSideProps = composeServerSideProps({
   use: [withAccount, withPosts],
-  resolver: (props) => ({
-    ...props,
-    title: `${props.posts.length} posts - My blog`,
-  }),
 });
 
 export default function Page(props) {
@@ -65,17 +53,17 @@ export default function Page(props) {
 }
 ```
 
-If any of the functions in the head return an object that contains either `notFound` or `redirect`, the first result will be prioritized.
+If any of the functions in the `use` return an object that contains either `notFound` or `redirect`, the first one will be used.
 
 ### `composeStaticProps(params): GetStaticProps`
 
 _composeStaticProps_ takes multiple _getStaticProps_ functions and composes them into a single function. Behaves like `composeServerSideProps` but you can additionally specify `revalidate`.
 
-- `params.use` - Array of _getStaticProps_ to compose. Object returned from them will be shallow merged and returned from it.
+- `params.use` - Array of _getStaticProps_ to compose. Object returned from them will be shallowly merged and passed to the page.
 
-- `params.resolver` (optional, default: `x => x`) - A callback function that takes composite props and returns interpolated props.
+- `params.resolver` (optional, default: `x => x`) - A callback function for interpolating the props before it's passed to the page.
 
-- `params.revalidate` (optional, default: `min`) - Could be one of `min` `max` or number. If you specify numbers, it will be used as `revalidate`. If you specify `min` (or max), the minimal number from `revalidate` returned from `use` will be used.
+- `params.revalidate` (optional, default: `min`) - Could be one of `min`, `max`, or number. If a number specified, it will be used as `revalidate`. If you specify `min` (or max), the minimal number from `revalidate` returned from `use` will be used.
 
 ```ts
 import { composeStaticProps } from 'next-composition';
@@ -92,10 +80,6 @@ const withPosts: GetStaticProps = async (ctx) => {
 
 export const getStaticProps = composeStaticProps({
   use: [withAccount, withPosts],
-  resolver: (props) => ({
-    ...props,
-    title: `${props.posts.length} posts - My blog`,
-  }),
   revalidate: 'min', // `30` will be used in this case
 });
 
@@ -109,9 +93,9 @@ export default function Page(props) {
 
 _composeInitialProps_ takes multiple _getInitialProps_ functions and composes them into a single function.
 
-- `params.use` - Array of _getInitialProps_ to compose. Object returned from them will be shallow merged and returned from it.
+- `params.use` - Array of _getInitialProps_ to compose. Object returned from them will be shallowly merged and passed to the page.
 
-- `params.resolver` (optional, default: `x => x`) - A callback function that takes composite props and returns interpolated props.
+- `params.resolver` (optional, default: `x => x`) - A callback function for interpolating the props before it's passed to the page.
 
 ```ts
 import { composeInitialProps } from 'next-composition';
@@ -133,20 +117,52 @@ export default function Page(props) {
 
 Page.getInitialProps = composeInitialProps({
   use: [withAccount, withPosts],
+});
+```
+
+## FAQs
+
+### I want to modify the result of _getServerSideProps_ or _getStaticProps_ before its passed to the page.
+
+You can specify `resolver` function in `composeServerSideProps` or `composeStaticProps` that allows you to interpolate the result before it is passed to the page. For example, if you want to use the count of `posts` as `title`, you can do it like this:
+
+```ts
+import { composeServerSideProps } from 'next-composition';
+
+const withPosts: GetServerSideProps = async (ctx) => {
+  const data = await fetch('/posts');
+  return { props: { posts: data } };
+};
+
+export const getServerSideProps = composeServerSideProps({
+  use: [withPosts],
   resolver: (props) => ({
     ...props,
     title: `${props.posts.length} posts - My blog`,
   }),
 });
+
+export default function Page(props) {
+  const { account, posts, title } = props;
+}
 ```
 
-## How to handle 404 and redirect
+### How is it different from `_middleware.js`?
 
-_composeServerSideProps_ and _composeStaticProps_ can handle redirects and not found in the same way as the Next.js API.
+Next.js introduces a feature called _middleware_ since v12.x which allows you to handle shared server side logic in a single module.
 
-Multiple functions can be specified in `use` even if one of the arguments returns a redirect, in which case the other results will be ignored.
+It's goal is kind of similar to `next-composition`: sharing common logic among multiple pages. However, since `_middleware` designed to be executed as _edge function_, it has some limitations such as it does not allow you to pass props to page components.
 
-If more than one of the functions specified in `use` returns a redirect, the first one specified will be used in priority.
+`next-composition` is a set of utility and the entity is just a _getServerSideProps_ and _getStaticProps_ so you can use it just like other APIs without limitations.
+
+### How to handle 404 and redirects?
+
+_composeServerSideProps_ and _composeStaticProps_ can handle redirects and 404s in the same way as the Next.js API. You might want to know that:
+
+- If some of the functions in `use` returns `notFound` or `redirect`, rest of the functions will be ignored.
+- If any of the functions in `use` returns a 404, redirects will be ignored and 404 page will be shown.
+- If more than one of the functions in `use` returns a redirect, the very first one will be used in priority.
+- If both `notFound` and `redirect` are returned from the functions in `use`, the very first `notFound` will be used.
 
 ```ts
 const withAccount: GetServerSideProps = async (ctx) => {
