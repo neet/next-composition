@@ -8,7 +8,7 @@ Next.js utility for reusing _getServerSideProps_, _getStaticProps_ and _getIniti
 
 - [Examples](https://github.com/neet/next-composition/tree/main/examples)
 
-### How does it different from `_middleware.js`?
+### How is it different from `_middleware.js`?
 
 Next.js introduces a feature called _middleware_ since v12.x which allows you to handle shared server side logic in a single module.
 
