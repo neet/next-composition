@@ -1,3 +1,5 @@
+## [1.0.1](https://github.com/neet/next-composition/compare/v1.0.0...v1.0.1) (2022-02-06)
+
 # 1.0.0 (2021-11-01)
 
 
