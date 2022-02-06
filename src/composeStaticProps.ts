@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { GetStaticPropsContext, GetStaticProps } from 'next';
-import { isNotFound, isRedirect, id } from './utils';
+import { isProps, id } from './utils';
 
 type Gsp<T> = GetStaticProps<T>;
 
@@ -31,11 +31,10 @@ export function composeStaticProps(params: ComposeStaticPropsParams<any[], any, 
   return async (ctx: GetStaticPropsContext) => {
     const props = await Promise.all(use.map((use) => use(ctx)));
 
-    const notFound = props.find(isNotFound);
-    if (notFound != null) return notFound;
-
-    const redirect = props.find(isRedirect);
-    if (redirect != null) return redirect;
+    const firstNotFoundOrRedirect = props.find((x) => !isProps(x));
+    if (firstNotFoundOrRedirect != null) {
+      return firstNotFoundOrRedirect;
+    }
 
     const composition = props
       .map((v) => v.props)
@@ -43,7 +42,7 @@ export function composeStaticProps(params: ComposeStaticPropsParams<any[], any, 
     
     const revalidateSecs = props
       .map((v) => v.revalidate)
-      .filter((v): v is number => !!v);
+      .filter((v): v is number => v != null);
     
     const revalidateSec
       = revalidate === 'min' ? Math.min(...revalidateSecs)

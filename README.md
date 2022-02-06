@@ -160,9 +160,7 @@ It's goal is kind of similar to `next-composition`: sharing common logic among m
 _composeServerSideProps_ and _composeStaticProps_ can handle redirects and 404s in the same way as the Next.js API. You might want to know that:
 
 - If some of the functions in `use` returns `notFound` or `redirect`, rest of the functions will be ignored.
-- If any of the functions in `use` returns a 404, redirects will be ignored and 404 page will be shown.
-- If more than one of the functions in `use` returns a redirect, the very first one will be used in priority.
-- If both `notFound` and `redirect` are returned from the functions in `use`, the very first `notFound` will be used.
+- If more than one of the functions in `use` returns a redirect or a 404, the very first one will be used in priority.
 
 ```ts
 const withAccount: GetServerSideProps = async (ctx) => {
