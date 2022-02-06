@@ -94,13 +94,28 @@ describe('composeStaticProps', () => {
     });
   });
 
-  test('if there are multiple redirects, former one will be prioritized', async () => {
+  test('if there are multiple redirects, the first one will be prioritized', async () => {
     const getStaticProps = composeStaticProps({
       use: [withBook, withRedirectToFacebook, withRedirectToApple],
     });
     const props = await getStaticProps({} as GetStaticPropsContext);
 
     expect(props).toEqual({
+      redirect: {
+        statusCode: 302,
+        destination: 'https://facebook.com',
+      },
+      revalidate: 60,
+    });
+  });
+
+  test('if notFound and redirects are mixed, the first one will be prioritized', async () => {
+    const getServerSidePops = composeStaticProps({
+      use: [withRedirectToFacebook, withNotFound, withRedirectToApple],
+    });
+    const result = await getServerSidePops({} as GetStaticPropsContext);
+
+    expect(result).toEqual({
       redirect: {
         statusCode: 302,
         destination: 'https://facebook.com',

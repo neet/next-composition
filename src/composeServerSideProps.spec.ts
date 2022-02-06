@@ -83,4 +83,18 @@ describe('composeServerSideProps', () => {
       },
     });
   });
+
+  test('if notFound and redirects are mixed, former one will be prioritized', async () => {
+    const getServerSidePops = composeServerSideProps({
+      use: [withRedirectToFacebook, withNotFound, withRedirectToApple],
+    });
+    const result = await getServerSidePops({} as GetServerSidePropsContext);
+
+    expect(result).toEqual({
+      redirect: {
+        statusCode: 302,
+        destination: 'https://facebook.com',
+      },
+    });
+  });
 });

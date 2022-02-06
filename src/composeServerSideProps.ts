@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { isNotFound, isRedirect, id } from './utils';
+import { id, isProps } from './utils';
 
 type Gssp<T> = GetServerSideProps<T>;
 
@@ -28,11 +28,10 @@ export function composeServerSideProps(params: ComposeServerSidePropsParams<any[
   return async (ctx: GetServerSidePropsContext) => {
     const props = await Promise.all(use.map((use) => use(ctx)));
 
-    const notFound = props.find(isNotFound);
-    if (notFound != null) return notFound;
-
-    const redirect = props.find(isRedirect);
-    if (redirect != null) return redirect;
+    const firstNotFoundOrRedirect = props.find((x) => !isProps(x));
+    if (firstNotFoundOrRedirect != null) {
+      return firstNotFoundOrRedirect;
+    }
 
     const composition = props
       .map((v) => v.props)
