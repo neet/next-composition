@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/neet/next-composition/compare/v1.0.1...v1.0.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* Respect order even if 404 and redirects are mixed ([4317602](https://github.com/neet/next-composition/commit/431760232d26c3c7ed5177d8aa9ac191fb901ab8))
+
 ## [1.0.1](https://github.com/neet/next-composition/compare/v1.0.0...v1.0.1) (2022-02-06)
 
 # 1.0.0 (2021-11-01)
