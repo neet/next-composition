@@ -59,5 +59,13 @@
   "peerDependencies": {
     "next": "*"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neet/next-composition.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neet/next-composition/issues"
+  },
+  "homepage": "https://github.com/neet/next-composition#readme"
 }
