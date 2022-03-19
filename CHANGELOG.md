@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/neet/next-composition/compare/v1.0.2...v1.0.3) (2022-03-19)
+
+
+### Bug Fixes
+
+* Add repository, bugs, and homepage fields ([1bbe547](https://github.com/neet/next-composition/commit/1bbe547cbf93186bc92bdc8ef41993c6bea070a9))
+
 ## [1.0.2](https://github.com/neet/next-composition/compare/v1.0.1...v1.0.2) (2022-02-07)
 
 
