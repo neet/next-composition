@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { composeServerSideProps } from './composeServerSideProps';
 import {
   withBook,
@@ -96,5 +96,30 @@ describe('composeServerSideProps', () => {
         destination: 'https://facebook.com',
       },
     });
+  });
+
+  test('with query and preview data type', () => {
+    const getStaticProps: GetServerSideProps<
+      Record<string, unknown>,
+      { type: 'foo' },
+      'bar'
+    > = composeServerSideProps({
+      use: [
+        async (ctx) => {
+          ctx.params?.type;
+          ctx.previewData;
+          return { props: {} };
+        },
+      ],
+      resolver: (_, ctx) => {
+        ctx.params?.type;
+        ctx.previewData;
+        return { props: {} };
+      },
+    });
+
+    getStaticProps({} as GetServerSidePropsContext<{ type: 'foo' }, 'bar'>);
+
+    expect(true).toBe(true);
   });
 });

@@ -1,31 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
-import { GetStaticPropsContext, GetStaticProps } from 'next';
-import { isProps, id } from './utils';
+import { GetStaticPropsContext, GetStaticProps, PreviewData  } from 'next';
+import { isProps, id, ParsedUrlQuery } from './utils';
 
-type Gsp<T> = GetStaticProps<T>;
+type Gsp<
+  P extends { [key: string]: any } = { [key: string]: any },
+  Q extends ParsedUrlQuery = ParsedUrlQuery,
+  D extends PreviewData = PreviewData,
+> = GetStaticProps<P, Q, D>;
 
 export type RevalidateCompositionType = 'min' | 'max';
 
-export type ComposeStaticPropsParams<T extends unknown[], CompositeT, U = CompositeT> = {
+export type ComposeStaticPropsParams<
+  T extends unknown[],
+  Q extends ParsedUrlQuery,
+  D extends  PreviewData,
+  P,
+  ResolvedP = P, 
+> = {
   readonly use: T;
-  readonly resolver?: (props: CompositeT, context: GetStaticPropsContext) => U | Promise<U>;
+  readonly resolver?: (props: P, context: GetStaticPropsContext<Q, D>) => ResolvedP | Promise<ResolvedP>;
   readonly revalidate?: number | RevalidateCompositionType;
 };
 
-export function composeStaticProps<T0, CompositeT = T0, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, CompositeT = T0 & T1, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, CompositeT = T0 & T1 & T2, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, CompositeT = T0 & T1 & T2 & T3, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, CompositeT = T0 & T1 & T2 & T3 & T4, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, CompositeT = T0 & T1 & T2 & T3 & T4 & T5, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, T7, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>, Gsp<T7>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>, Gsp<T7>, Gsp<T8>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>, Gsp<T7>, Gsp<T8>, Gsp<T9>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>, Gsp<T7>, Gsp<T8>, Gsp<T9>, Gsp<T10>], CompositeT, U>): Gsp<U>
-export function composeStaticProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 & T11, U = CompositeT>(params: ComposeStaticPropsParams<[Gsp<T0>, Gsp<T1>, Gsp<T2>, Gsp<T3>, Gsp<T4>, Gsp<T5>, Gsp<T6>, Gsp<T7>, Gsp<T8>, Gsp<T9>, Gsp<T10>, Gsp<T11>], CompositeT, U>): Gsp<U>
-export function composeStaticProps(params: ComposeStaticPropsParams<any[], any, any>): Gsp<any> {
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, P = T0, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, P = T0 & T1, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, P = T0 & T1 & T2, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, P = T0 & T1 & T2 & T3, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, P = T0 & T1 & T2 & T3 & T4, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, P = T0 & T1 & T2 & T3 & T4 & T5, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, P = T0 & T1 & T2 & T3 & T4 & T5 & T6, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>, Gsp<T7, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>, Gsp<T7, Q, D>, Gsp<T8, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>, Gsp<T7, Q, D>, Gsp<T8, Q, D>, Gsp<T9, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>, Gsp<T7, Q, D>, Gsp<T8, Q, D>, Gsp<T9, Q, D>, Gsp<T10, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 & T11, ResolvedP = P>(params: ComposeStaticPropsParams<[Gsp<T0, Q, D>, Gsp<T1, Q, D>, Gsp<T2, Q, D>, Gsp<T3, Q, D>, Gsp<T4, Q, D>, Gsp<T5, Q, D>, Gsp<T6, Q, D>, Gsp<T7, Q, D>, Gsp<T8, Q, D>, Gsp<T9, Q, D>, Gsp<T10, Q, D>, Gsp<T11, Q, D>], Q, D, P, ResolvedP>): Gsp<P, Q, D>
+export function composeStaticProps(params: ComposeStaticPropsParams<any[], any, any, any>): Gsp {
   const { use, resolver = id, revalidate = 'min' } = params;
 
   return async (ctx: GetStaticPropsContext) => {

@@ -1,28 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { id, isProps } from './utils';
+import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
+import { id, isProps, ParsedUrlQuery } from './utils';
 
-type Gssp<T> = GetServerSideProps<T>;
+type Gssp<
+  P extends { [key: string]: any } = { [key: string]: any },
+  Q extends ParsedUrlQuery = ParsedUrlQuery,
+  D extends PreviewData = PreviewData,
+> = GetServerSideProps<P, Q, D>;
 
-export type ComposeServerSidePropsParams<T extends unknown[], CompositeT, U = CompositeT> = {
+export type ComposeServerSidePropsParams<
+  T extends unknown[],
+  Q extends ParsedUrlQuery,
+  D extends  PreviewData,
+  P,
+  ResolvedP = P, 
+> = {
   readonly use: T;
-  readonly resolver?: (props: CompositeT, context: GetServerSidePropsContext) => U | Promise<U>;
+  readonly resolver?: (props: P, context: GetServerSidePropsContext<Q, D>) => ResolvedP | Promise<ResolvedP>;
 };
 
-export function composeServerSideProps<T0, CompositeT = T0, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, CompositeT = T0 & T1, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, CompositeT = T0 & T1 & T2, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, CompositeT = T0 & T1 & T2 & T3, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, CompositeT = T0 & T1 & T2 & T3 & T4, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, CompositeT = T0 & T1 & T2 & T3 & T4 & T5, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, T7, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>, Gssp<T7>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>, Gssp<T7>, Gssp<T8>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>, Gssp<T7>, Gssp<T8>, Gssp<T9>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>, Gssp<T7>, Gssp<T8>, Gssp<T9>, Gssp<T10>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, CompositeT = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 & T11, U = CompositeT>(params: ComposeServerSidePropsParams<[Gssp<T0>, Gssp<T1>, Gssp<T2>, Gssp<T3>, Gssp<T4>, Gssp<T5>, Gssp<T6>, Gssp<T7>, Gssp<T8>, Gssp<T9>, Gssp<T10>, Gssp<T11>], CompositeT, U>): Gssp<U>
-export function composeServerSideProps(params: ComposeServerSidePropsParams<any[], any, any>): Gssp<any> {
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, P = T0, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, P = T0 & T1, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, P = T0 & T1 & T2, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, P = T0 & T1 & T2 & T3, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, P = T0 & T1 & T2 & T3 & T4, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, P = T0 & T1 & T2 & T3 & T4 & T5, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, P = T0 & T1 & T2 & T3 & T4 & T5 & T6, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>, Gssp<T7, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>, Gssp<T7, Q, D>, Gssp<T8, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>, Gssp<T7, Q, D>, Gssp<T8, Q, D>, Gssp<T9, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>, Gssp<T7, Q, D>, Gssp<T8, Q, D>, Gssp<T9, Q, D>, Gssp<T10, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps<Q extends ParsedUrlQuery, D extends PreviewData, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, P = T0 & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 & T11, ResolvedP = P>(params: ComposeServerSidePropsParams<[Gssp<T0, Q, D>, Gssp<T1, Q, D>, Gssp<T2, Q, D>, Gssp<T3, Q, D>, Gssp<T4, Q, D>, Gssp<T5, Q, D>, Gssp<T6, Q, D>, Gssp<T7, Q, D>, Gssp<T8, Q, D>, Gssp<T9, Q, D>, Gssp<T10, Q, D>, Gssp<T11, Q, D>], Q, D, P, ResolvedP>): Gssp<P, Q, D>
+export function composeServerSideProps(params: ComposeServerSidePropsParams<any[], any, any, any>): Gssp {
   const { use, resolver = id } = params;
 
   return async (ctx: GetServerSidePropsContext) => {

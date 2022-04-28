@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { composeStaticProps } from './composeStaticProps';
 import {
   withBook,
@@ -32,13 +32,13 @@ describe('composeStaticProps', () => {
   });
 
   test('interpolation', async () => {
-    const getServerSidePops = composeStaticProps({
+    const getStaticProps = composeStaticProps({
       use: [withBook, withCompany],
       resolver: (props) => ({
         name: props.book.author + ' ' + props.company.founder,
       }),
     });
-    const result = await getServerSidePops({} as GetStaticPropsContext);
+    const result = await getStaticProps({} as GetStaticPropsContext);
 
     expect(result).toEqual({
       props: {
@@ -110,10 +110,10 @@ describe('composeStaticProps', () => {
   });
 
   test('if notFound and redirects are mixed, the first one will be prioritized', async () => {
-    const getServerSidePops = composeStaticProps({
+    const getStaticProps = composeStaticProps({
       use: [withRedirectToFacebook, withNotFound, withRedirectToApple],
     });
-    const result = await getServerSidePops({} as GetStaticPropsContext);
+    const result = await getStaticProps({} as GetStaticPropsContext);
 
     expect(result).toEqual({
       redirect: {
@@ -122,5 +122,31 @@ describe('composeStaticProps', () => {
       },
       revalidate: 60,
     });
+  });
+
+  test('with query and preview data type', () => {
+    const getStaticProps: GetStaticProps<
+      Record<string, unknown>,
+      { type: 'foo' },
+      'bar'
+    > = composeStaticProps({
+      use: [
+        (ctx) => {
+          ctx.params?.type;
+          ctx.previewData;
+          return { props: {} };
+        },
+      ],
+      resolver: (_, ctx) => {
+        ctx.params?.type;
+        ctx.previewData;
+        return { props: {} };
+      },
+      revalidate: 'max',
+    });
+
+    getStaticProps({} as GetStaticPropsContext<{ type: 'foo' }, 'bar'>);
+
+    expect(true).toBe(true);
   });
 });

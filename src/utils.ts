@@ -9,3 +9,5 @@ export const isProps = <T>(
 };
 
 export const id = <T>(x: T): T => x;
+
+export type ParsedUrlQuery = Record<string, string | string[] | undefined>;
