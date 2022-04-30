@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/neet/next-composition/compare/v1.0.3...v1.1.0) (2022-04-30)
+
+
+### Features
+
+* Add ParsedUrlQuery and PreviewData as generic parameters ([1219db4](https://github.com/neet/next-composition/commit/1219db43f88272abe8b65b740aa54cd975b9f941))
+
 ## [1.0.3](https://github.com/neet/next-composition/compare/v1.0.2...v1.0.3) (2022-03-19)
 
 

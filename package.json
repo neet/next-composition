@@ -6,7 +6,7 @@
     "test:eslint": "eslint -c .eslintrc.json ./src/**/*.ts",
     "build": "rollup -c rollup.config.js"
   },
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
